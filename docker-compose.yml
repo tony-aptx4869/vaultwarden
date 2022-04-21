@@ -8,7 +8,7 @@ services:
     restart: always
     volumes:
       - /root/vwdata:/data
-      # - /root/web-vault:/web-vault
+      - /root/web-vault:/web-vault
     env_file: vaultwarden.env
     networks:
       - caddy-network
