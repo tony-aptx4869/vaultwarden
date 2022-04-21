@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    pull_policy: always
+    restart: always
+    volumes:
+      - /root/vwdata:/data
+      # - /root/web-vault:/web-vault
+    env_file: vaultwarden.env
+    networks:
+      - caddy-network
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    pull_policy: always
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /root/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - /root/caddy/config:/config
+      - /root/caddy/data:/data
+    env_file: caddy.env
+    networks:
+      - caddy-network
+
+networks:
+  caddy-network:
+    external: true
